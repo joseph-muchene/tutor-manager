@@ -1,10 +1,10 @@
 import React from "react";
-import TutorTable from "../../components/TutorTable";
+import AssignmentTable from "../../components/AssignmentTable";
 
 const ManageTutors = () => {
   return (
     <div>
-      <TutorTable  />
+      <AssignmentTable />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Calender } from "../components/Calender";
-import TutorTable from "../components/TutorTable";
+import TutorTable from "../components/AssignmentTable";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.config";
 
@@ -38,7 +38,7 @@ const TutorTasks = () => {
       </div>
 
       <div className="my-4 m">
-        <TutorTable />
+        <TutorTable authUser={true} />
       </div>
     </div>
   );

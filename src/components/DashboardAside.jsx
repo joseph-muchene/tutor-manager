@@ -33,7 +33,7 @@ export const DashboardAside = () => {
         aria-label="Sidebar"
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul class="space-y-3 font-medium">
+          <ul class="space-y-10 font-medium">
             <li>
               <Link to={`/dashboard`}>
                 <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>

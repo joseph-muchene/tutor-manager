@@ -76,7 +76,7 @@ export default function App() {
   }
   return (
     <>
-      <div className="mx-auto w-[700px] h-[100vh] flex flex-col  justify-center items-center">
+      <div className="mx-auto md:w-[700px] h-[100vh] flex flex-col  justify-center items-center">
         <img src={Logo} alt="" srcset="" className="rounded-full h-32" />
         <form onSubmit={createUser} className="w-[400px]">
           <div className="flex flex-col space-y-3 mb-3">

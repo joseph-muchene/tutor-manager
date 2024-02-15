@@ -1,6 +1,26 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { db } from "../../firebase.config";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 function TutorTable() {
+  const [tutors, setTutors] = useState([]);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const data = [];
+    async function getUsers() {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+
+        data.push({ id: doc.id, ...doc.data() });
+      });
+      setUsers(data);
+    }
+
+    getUsers();
+  }, []);
+
+  console.log(users);
   const [formData, setFormData] = useState({
     school: "",
     leadTutor: "",
@@ -18,10 +38,18 @@ function TutorTable() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Here you can handle form submission, such as adding the task to the database or updating the state
-    console.log(formData);
+    // Add a new document with a generated id.
+    const docRef = await addDoc(collection(db, "assignments"), {
+      ...formData,
+      status: "IN PROGRESS",
+      dateAssigned: Date.now(),
+    });
+    if (docRef.id) {
+      toast.success("Assignment created");
+    }
     // Reset the form after submission
     setFormData({
       school: "",
@@ -60,14 +88,19 @@ function TutorTable() {
           >
             Lead Tutor
           </label>
-          <input
-            type="text"
-            id="leadTutor"
-            name="leadTutor"
+
+          <select
             value={formData.leadTutor}
             onChange={handleChange}
             className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
-          />
+            name="leadTutor"
+            id="leadTutor"
+          >
+            <option value=""></option>
+            {users.map((tutor) => (
+              <option value={tutor.email}>{tutor.email}</option>
+            ))}
+          </select>
         </div>
         <div className="mb-4">
           <label
@@ -77,7 +110,7 @@ function TutorTable() {
             Arrival Time
           </label>
           <input
-            type="text"
+            type="time"
             id="arrivalTime"
             name="arrivalTime"
             value={formData.arrivalTime}
@@ -92,14 +125,27 @@ function TutorTable() {
           >
             Assigned Tutor
           </label>
-          <input
+
+          <select
+            id="assignedTutor"
+            name="assignedTutor"
+            value={formData.assignedTutor}
+            onChange={handleChange}
+            className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+          >
+            <option value=""></option>
+            {users.map((tutor) => (
+              <option value={tutor.email}>{tutor.email}</option>
+            ))}
+          </select>
+          {/* <input
             type="text"
             id="assignedTutor"
             name="assignedTutor"
             value={formData.assignedTutor}
             onChange={handleChange}
             className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
-          />
+          /> */}
         </div>
         <div className="mb-4">
           <label

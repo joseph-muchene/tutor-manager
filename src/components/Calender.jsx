@@ -12,7 +12,7 @@ export const Calender = () => {
       key: "selection",
     },
   ]);
-  console.log(state);
+
   return (
     <div>
       <DateRangePicker
