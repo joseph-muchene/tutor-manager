@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { changeDate } from "../app/feartures/calenderSlice";
+import { DeleteModal, EditModal } from "../components/Modal";
 
 const TutorTasks = React.memo(() => {
   const [user, setUser] = useState(null);
@@ -51,6 +52,8 @@ const TutorTasks = React.memo(() => {
   return (
     <div>
       <div>
+        <EditModal />
+        <DeleteModal />
         {user && user.photoURL && (
           <img
             src={
