@@ -4,7 +4,7 @@ import AssignmentTable from "../../components/AssignmentTable";
 const ManageTutors = () => {
   return (
     <div>
-      <AssignmentTable />
+      <AssignmentTable authUser={false} />
     </div>
   );
 };

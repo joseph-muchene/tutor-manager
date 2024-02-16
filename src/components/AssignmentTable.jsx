@@ -42,6 +42,22 @@ function AssignmentTable({ authUser }) {
 
         setAssignments(x);
       }
+      if(!authUser){
+        const q = query(
+          collection(db, "assignments"),
+          where("leadTutor", "==", user?.email)
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        const x = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAssignments(x);
+      }
+              
     };
 
     fetchData();
