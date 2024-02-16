@@ -9,7 +9,6 @@ function AssignmentTable({ authUser }) {
   const calenderState = useSelector((state) => state.calender);
 
   useEffect(() => {
-  
     const fetchData = async () => {
       // Fetch user once when the component mounts
       onAuthStateChanged(auth, (userData) => {
@@ -23,11 +22,10 @@ function AssignmentTable({ authUser }) {
         calenderState.startDate &&
         calenderState.endDate
       ) {
-    
         const startparsedDate = new Date(calenderState.startDate);
         const startunixTimestamp = startparsedDate.getTime() / 1000;
-          const endparsedDate = new Date(calenderState.startDate);
-          const endunixTimestamp = endparsedDate.getTime() / 1000;
+        const endparsedDate = new Date(calenderState.startDate);
+        const endunixTimestamp = endparsedDate.getTime() / 1000;
         const q = query(
           collection(db, "assignments"),
           where("leadTutor", "==", user?.email),
@@ -36,13 +34,12 @@ function AssignmentTable({ authUser }) {
         );
 
         const querySnapshot = await getDocs(q);
-    
+
         const x = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
 
-       
         setAssignments(x);
       }
     };
@@ -51,8 +48,8 @@ function AssignmentTable({ authUser }) {
   }, [authUser, calenderState.startDate, calenderState.endDate, user.email]);
 
   return (
-    <div className="relative md:overflow-x-scroll">
-      <table className="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <div class="relative overflow-x-auto ">
+      <table className="  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">

@@ -64,7 +64,7 @@ const TutorTasks = React.memo(() => {
           />
         )}
       </div>
-      <div>
+      <div class="relative overflow-x-auto">
         <DateRangePicker
           onChange={handleDateRangeChange}
           showSelectionPreview={false}
