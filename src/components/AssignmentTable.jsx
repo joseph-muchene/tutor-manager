@@ -2,43 +2,53 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
-
+import { useSelector } from "react-redux";
 function AssignmentTable({ authUser }) {
   const [user, setUser] = useState({});
-  onAuthStateChanged(auth, (user) => {
-    setUser(user);
-  });
   const [assignments, setAssignments] = useState([]);
+  const calenderState = useSelector((state) => state.calender);
+
   useEffect(() => {
-    const data = [];
-    async function getAssignments() {
-      if (authUser) {
+  
+    const fetchData = async () => {
+      // Fetch user once when the component mounts
+      onAuthStateChanged(auth, (userData) => {
+        setUser(userData);
+      });
+
+      // Fetch assignments only if authUser, user.email, and calendar dates exist
+      if (
+        authUser &&
+        user.email &&
+        calenderState.startDate &&
+        calenderState.endDate
+      ) {
+    
+        const startparsedDate = new Date(calenderState.startDate);
+        const startunixTimestamp = startparsedDate.getTime() / 1000;
+          const endparsedDate = new Date(calenderState.startDate);
+          const endunixTimestamp = endparsedDate.getTime() / 1000;
         const q = query(
           collection(db, "assignments"),
-          where("leadTutor", "==", user?.email)
+          where("leadTutor", "==", user?.email),
+          where("dateAssigned", ">=", startunixTimestamp), // Start of the range
+          where("dateAssigned", "<=", endunixTimestamp) // End of the range
         );
 
         const querySnapshot = await getDocs(q);
+    
+        const x = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-
-          data.push({ id: doc.id, ...doc.data() });
-        });
-        setAssignments(data);
+       
+        setAssignments(x);
       }
-      const querySnapshot = await getDocs(collection(db, "assignments"));
+    };
 
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-
-        data.push({ id: doc.id, ...doc.data() });
-      });
-      setAssignments(data);
-    }
-
-    getAssignments();
-  }, [user]);
+    fetchData();
+  }, [authUser, calenderState.startDate, calenderState.endDate, user.email]);
 
   return (
     <div className="relative overflow-x-scroll md:overflow-x-scroll">

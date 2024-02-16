@@ -1,22 +1,53 @@
-import React, { useState } from "react";
-import { Calender } from "../components/Calender";
 import TutorTable from "../components/AssignmentTable";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase.config";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { useDispatch } from "react-redux";
+import { format } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { changeDate } from "../app/feartures/calenderSlice";
 
-const TutorTasks = () => {
-  const [user, setUser] = useState("");
+const TutorTasks = React.memo(() => {
+  const [user, setUser] = useState(null);
   const [photo, setPhoto] = useState("");
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-      setPhoto(user.photoURL);
-    } else {
-      // User is signed out
-      // ...
-    }
+  const [dateRange, setDateRange] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
   });
-  console.log(user.photoURL);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        setPhoto(user.photoURL);
+      } else {
+        setUser(null);
+        setPhoto("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const dispatch = useDispatch();
+
+  const handleDateRangeChange = (ranges) => {
+    const { startDate, endDate } = ranges.selection;
+    const formattedStartDate = format(startDate, "dd MMM yyyy");
+    const formattedEndDate = format(endDate, "dd MMM yyyy");
+
+    const newDateRange = {
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+      key: "selection",
+    };
+
+    setDateRange(newDateRange);
+    dispatch(changeDate(newDateRange));
+  };
   return (
     <div>
       <div>
@@ -34,7 +65,14 @@ const TutorTasks = () => {
         )}
       </div>
       <div>
-        <Calender />
+        <DateRangePicker
+          onChange={handleDateRangeChange}
+          showSelectionPreview={false}
+          moveRangeOnFirstSelection={false}
+          editableDateInputs={true}
+          ranges={[dateRange]}
+          direction="horizontal"
+        />
       </div>
 
       <div className="my-4 m">
@@ -42,6 +80,6 @@ const TutorTasks = () => {
       </div>
     </div>
   );
-};
+});
 
 export default TutorTasks;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { db } from "../../firebase.config";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { parse, format } from "date-fns";
+import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
 function TutorTable() {
   const [tutors, setTutors] = useState([]);
   const [users, setUsers] = useState([]);
@@ -20,7 +21,7 @@ function TutorTable() {
     getUsers();
   }, []);
 
-  console.log(users);
+ 
   const [formData, setFormData] = useState({
     school: "",
     leadTutor: "",
@@ -42,10 +43,14 @@ function TutorTable() {
     e.preventDefault();
     // Here you can handle form submission, such as adding the task to the database or updating the state
     // Add a new document with a generated id.
+
+    const parsedDate = new Date(formatDate(formData.dateAssigned));
+
+    const unixTimestamp = parsedDate.getTime() / 1000;
     const docRef = await addDoc(collection(db, "assignments"), {
       ...formData,
+      dateAssigned: unixTimestamp,
       status: "IN PROGRESS",
-      dateAssigned: Date.now(),
     });
     if (docRef.id) {
       toast.success("Assignment created");
@@ -120,6 +125,23 @@ function TutorTable() {
         </div>
         <div className="mb-4">
           <label
+            htmlFor="dateAssigned"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Date Assigned
+          </label>
+          <input
+            type="date"
+            id="dateAssigned"
+            name="dateAssigned"
+            value={formData.dateAssigned}
+            onChange={handleChange}
+            className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+          />
+          <span className="ml-2">{formatDate(formData.dateAssigned)}</span>
+        </div>
+        <div className="mb-4">
+          <label
             htmlFor="assignedTutor"
             className="block text-sm font-medium text-gray-700"
           >
@@ -189,6 +211,11 @@ function TutorTable() {
       </form>
     </div>
   );
+}
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { day: "numeric", month: "short", year: "numeric" };
+  return date.toLocaleDateString("en-GB", options);
 }
 
 export default TutorTable;
