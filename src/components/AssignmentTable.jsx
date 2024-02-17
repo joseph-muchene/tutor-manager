@@ -78,8 +78,8 @@ function AssignmentTable({ authUser }) {
       <EditModal data={assignmentData} />
       <DeleteModal />
       <div class="relative overflow-x-auto ">
-        <table className="  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="  text-sm text-left rtl:text-right text-gray-500 ">
+          <thead className="text-xs text-gray-700 uppercase   ">
             <tr>
               <th scope="col" className="px-6 py-3">
                 School
