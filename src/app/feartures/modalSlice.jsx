@@ -5,6 +5,7 @@ import { addDays, format } from "date-fns";
 const initialState = {
   open: false,
   key: "",
+  state:""
 };
 
 export const ModalSlice = createSlice({
@@ -13,7 +14,7 @@ export const ModalSlice = createSlice({
   reducers: {
     setOpen: (state, action) => {
       state.open = !state.open;
-      state.id = action.payload;
+      state.state = action.payload;
       state.key = "edit";
     },
 

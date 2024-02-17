@@ -8,6 +8,7 @@ import { DeleteModal, EditModal } from "./Modal";
 function AssignmentTable({ authUser }) {
   const [user, setUser] = useState({});
   const [assignments, setAssignments] = useState([]);
+  const [assignmentData, setAssignmentData] = useState({});
   const calenderState = useSelector((state) => state.calender);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -64,9 +65,17 @@ function AssignmentTable({ authUser }) {
     fetchData();
   }, [authUser, calenderState.startDate, calenderState.endDate, user.email]);
 
+  const setEditModal = (data) => {
+    dispatch(setOpen("editAssignment"));
+    setAssignmentData(data);
+  };
+
+  const setDeleteModal = () => {
+    dispatch(setDelete());
+  };
   return (
     <>
-      <EditModal />
+      <EditModal data={assignmentData} />
       <DeleteModal />
       <div class="relative overflow-x-auto ">
         <table className="  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -103,8 +112,8 @@ function AssignmentTable({ authUser }) {
               //
 
               //
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <tr className="bg-white border-b ">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   {assignment.school}
                 </td>
                 <td className="px-6 py-4">{assignment.leadTutor}</td>
@@ -117,13 +126,13 @@ function AssignmentTable({ authUser }) {
                 <td className="flex space-x-3  px-6 py-4">
                   <button
                     type="button"
-                    onClick={() => dispatch(setDelete())}
+                    onClick={() => setDeleteModal(assignment)}
                     class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
                   >
                     Delete
                   </button>
                   <button
-                    onClick={() => dispatch(setOpen("editAssignmentModal"))}
+                    onClick={() => setEditModal(assignment)}
                     type="button"
                     class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
                   >

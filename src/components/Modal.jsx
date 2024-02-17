@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpen } from "../app/feartures/modalSlice";
-export function EditModal() {
-  const { open, key } = useSelector((state) => state.modal);
+export function EditModal({ data }) {
+  const { open, key, state } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   return (
@@ -16,9 +16,9 @@ export function EditModal() {
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
       >
         <div class="relative p-4 w-full max-w-2xl max-h-full">
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div class="relative bg-white rounded-lg shadow ">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              <h3 class="text-xl font-semibold text-gray-900 ">
                 Terms of Service
               </h3>
               <button
@@ -47,31 +47,14 @@ export function EditModal() {
             </div>
 
             <div class="p-4 md:p-5 space-y-4">
-              <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                With less than a month to go before the European Union enacts
-                new consumer privacy laws for its citizens, companies around the
-                world are updating their terms of service agreements to comply.
-              </p>
-              <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                The European Union’s General Data Protection Regulation
-                (G.D.P.R.) goes into effect on May 25 and is meant to ensure a
-                common set of data rights in the European Union. It requires
-                organizations to notify users as soon as possible of high-risk
-                data breaches that could personally affect them.
-              </p>
+              {state == "editAssignment" && EditAssignment()}
             </div>
 
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <button
                 data-modal-hide="default-modal"
                 type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                I accept
-              </button>
-              <button
-                data-modal-hide="default-modal"
-                type="button"
+                onClick={() => dispatch(setOpen())}
                 class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
                 Decline
@@ -86,11 +69,9 @@ export function EditModal() {
 
 export const DeleteModal = () => {
   const { open, key } = useSelector((state) => state.modal);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div>
-    
-
       <div
         id="popup-modal"
         tabindex="-1"
@@ -99,7 +80,7 @@ export const DeleteModal = () => {
         } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
       >
         <div class="relative p-4 w-full max-w-md max-h-full">
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div class="relative bg-white rounded-lg shadow ">
             <button
               type="button"
               onClick={() => dispatch(setOpen())}
@@ -152,6 +133,7 @@ export const DeleteModal = () => {
               <button
                 data-modal-hide="popup-modal"
                 type="button"
+                onClick={() => dispatch(setOpen())}
                 class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
                 No, cancel
@@ -163,3 +145,40 @@ export const DeleteModal = () => {
     </div>
   );
 };
+
+function EditAssignment() {
+  return (
+    <>
+      <form>
+        <div className="mb-4">
+          <label
+            htmlFor="leadTutor"
+            className="block text-sm font-medium text-gray-700"
+          >
+            update status
+          </label>
+
+          <select
+            className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+            name="status"
+            id="status"
+          >
+            <option value=""></option>
+
+            <option value="in progress">In progress</option>
+            <option value="in progress">terminated</option>
+
+            <option value="completed">completed</option>
+          </select>
+        </div>
+        <button
+          data-modal-hide="default-modal"
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          update
+        </button>
+      </form>
+    </>
+  );
+}

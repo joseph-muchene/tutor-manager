@@ -54,7 +54,7 @@ function TutorTable() {
           <tbody>
             {users.map((user) => (
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   TUTOR
                 </td>
                 <td className="px-6 py-4">{user.email}</td>
@@ -73,7 +73,7 @@ function TutorTable() {
                   <button
                     type="button"
                     onClick={() => dispatch(setDelete())}
-                    class="text-white bg-red-500 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
+                    class="text-white bg-red-500 ocus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
                   >
                     Delete
                   </button>
