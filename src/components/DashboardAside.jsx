@@ -46,12 +46,12 @@ export const DashboardAside = () => {
 
             <li>
               <Link to={`/dashboard/assign/jobs`}>
-                <span class="flex-1 ms-3 whitespace-nowrap">Assign Assignment</span>
+                <span class="flex-1 ms-3 whitespace-nowrap">Assign task</span>
               </Link>
             </li>
             <li>
               <Link to={`/dashboard/manage/jobs`}>
-                <span class="flex-1 ms-3 whitespace-nowrap">Manage Assignments</span>
+                <span class="flex-1 ms-3 whitespace-nowrap">Manage tasks</span>
               </Link>
             </li>
             <li>
