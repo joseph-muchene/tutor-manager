@@ -19,7 +19,7 @@ export function EditModal({ data }) {
           <div class="relative bg-white rounded-lg shadow ">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 class="text-xl font-semibold text-gray-900 ">
-                Terms of Service
+                update assignment status
               </h3>
               <button
                 type="button"
