@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { Users,ClipboardList,School,LayoutDashboard    } from "lucide-react";
 export const DashboardAside = () => {
   return (
     <div>
@@ -32,30 +32,45 @@ export const DashboardAside = () => {
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div class="h-full px-3 py-4 overflow-y-auto 
+        <div
+          class="h-full px-3 py-4 overflow-y-auto 
         
         
         
-        ">
+        "
+        >
           <ul class="space-y-10 font-medium">
             <li>
-              <Link to={`/dashboard`}>
+              <Link className="flex items-center space-x-3" to={`/dashboard`}>
+                <LayoutDashboard />
                 <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
               </Link>
             </li>
-
             <li>
-              <Link to={`/dashboard/assign/jobs`}>
+              <Link
+                className="flex items-center space-x-3"
+                to={`/dashboard/assign/jobs`}
+              >
+                <School />
                 <span class="flex-1 ms-3 whitespace-nowrap">Assign task</span>
               </Link>
             </li>
+            {/* <li className="flex items-center space-x-3"></li>{" "} */}
             <li>
-              <Link to={`/dashboard/manage/jobs`}>
+              <Link
+                className="flex items-center space-x-3"
+                to={`/dashboard/manage/jobs`}
+              >
+                <ClipboardList />
                 <span class="flex-1 ms-3 whitespace-nowrap">Manage tasks</span>
               </Link>
             </li>
             <li>
-              <Link to={`/dashboard/manage/users`}>
+              <Link
+                className="flex items-center space-x-3"
+                to={`/dashboard/manage/users`}
+              >
+              <Users />
                 <span class="flex-1 ms-3 whitespace-nowrap">Manage Users</span>
               </Link>
             </li>
