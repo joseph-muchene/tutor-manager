@@ -13,7 +13,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { toast } from "react-hot-toast";
-export function EditModal({ data }) {
+export function EditModal({ data, isEditingUser }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const { open, key, state } = useSelector((state) => state.modal);
@@ -64,6 +64,8 @@ export function EditModal({ data }) {
                   status
                 )}
               {state == "editTask" && EditTask()}
+
+              {state === "editUser" && "hello"}
             </div>
 
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Users,ClipboardList,School,LayoutDashboard    } from "lucide-react";
+import {
+  Users,
+  ClipboardList,
+  School,
+  LayoutDashboard,
+  Notebook,
+} from "lucide-react";
 export const DashboardAside = () => {
   return (
     <div>
@@ -70,8 +76,14 @@ export const DashboardAside = () => {
                 className="flex items-center space-x-3"
                 to={`/dashboard/manage/users`}
               >
-              <Users />
+                <Users />
                 <span class="flex-1 ms-3 whitespace-nowrap">Manage Users</span>
+              </Link>
+            </li>
+            <li>
+              <Link className="flex items-center space-x-3" to={`#`}>
+                <Notebook />
+                <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
               </Link>
             </li>
           </ul>

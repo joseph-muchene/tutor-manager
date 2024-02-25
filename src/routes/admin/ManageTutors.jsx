@@ -22,11 +22,20 @@ function TutorTable() {
     getUsers();
   }, []);
 
+  const setEditModal = (data) => {
+    if (window.location.pathname.startsWith("/dashboard/manage/users")) {
+      return dispatch(setOpen("editUser"));
+    }
+  };
+
+  const setDeleteModal = () => {
+    dispatch(setDelete());
+  };
   return (
     <>
-      <EditModal />
+      <EditModal isEditingUser={true} />
       <DeleteModal />
-      <div class="relative overflow-x-auto ">
+      <div class="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase ">
             <tr>
@@ -64,7 +73,7 @@ function TutorTable() {
 
                 <td className="flex space-x-3  px-6 py-4">
                   <button
-                    onClick={() => dispatch(setOpen())}
+                    onClick={() => setEditModal(user)}
                     type="button"
                     class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
                   >
