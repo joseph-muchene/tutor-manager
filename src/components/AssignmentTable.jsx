@@ -20,12 +20,7 @@ function AssignmentTable({ authUser }) {
       });
 
       // Fetch assignments only if authUser, user.email, and calendar dates exist
-      if (
-        authUser &&
-        user.email &&
-        calenderState.startDate &&
-        calenderState.endDate
-      ) {
+      if (calenderState.startDate && calenderState.endDate) {
         const startparsedDate = new Date(calenderState.startDate);
         const startunixTimestamp = startparsedDate.getTime() / 1000;
         const endparsedDate = new Date(calenderState.startDate);
@@ -44,7 +39,7 @@ function AssignmentTable({ authUser }) {
           ...doc.data(),
         }));
 
-        setAssignments(x);
+        return setAssignments(x);
       }
       if (authUser) {
         const q = query(
@@ -78,7 +73,6 @@ function AssignmentTable({ authUser }) {
   }, [authUser, calenderState.startDate, calenderState.endDate, user.email]);
 
   const setEditModal = (data) => {
-  
     if (window.location.pathname.startsWith("/dashboard/manage")) {
       return dispatch(setOpen("editTask"));
     }
@@ -92,7 +86,7 @@ function AssignmentTable({ authUser }) {
 
   return (
     <>
-      <EditModal data={assignmentData}  />
+      <EditModal data={assignmentData} />
       <DeleteModal />
       <div class="relative overflow-x-auto ">
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
@@ -117,10 +111,10 @@ function AssignmentTable({ authUser }) {
                 Comments
               </th>
               <th scope="col" className="px-6 py-3">
-                Actions
+                Status
               </th>
               <th scope="col" className="px-6 py-3">
-                Status
+                Actions
               </th>
             </tr>
           </thead>
