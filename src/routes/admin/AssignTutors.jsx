@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { db } from "../../firebase.config";
-import { parse, format } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
 import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
 function TutorTable() {
   const [tutors, setTutors] = useState([]);
@@ -21,7 +21,6 @@ function TutorTable() {
     getUsers();
   }, []);
 
- 
   const [formData, setFormData] = useState({
     school: "",
     leadTutor: "",
@@ -50,6 +49,7 @@ function TutorTable() {
     const docRef = await addDoc(collection(db, "assignments"), {
       ...formData,
       dateAssigned: unixTimestamp,
+      key: uuidv4(),
       status: "IN PROGRESS",
     });
     if (docRef.id) {
@@ -212,6 +212,7 @@ function TutorTable() {
     </div>
   );
 }
+
 function formatDate(dateString) {
   const date = new Date(dateString);
   const options = { day: "numeric", month: "short", year: "numeric" };

@@ -9,6 +9,7 @@ function AssignmentTable({ authUser }) {
   const [user, setUser] = useState({});
   const [assignments, setAssignments] = useState([]);
   const [assignmentData, setAssignmentData] = useState({});
+  const [id, setId] = useState("");
   const calenderState = useSelector((state) => state.calender);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -45,11 +46,22 @@ function AssignmentTable({ authUser }) {
 
         setAssignments(x);
       }
-      if (!authUser) {
+      if (authUser) {
         const q = query(
           collection(db, "assignments"),
           where("leadTutor", "==", user?.email)
         );
+
+        const querySnapshot = await getDocs(q);
+
+        const x = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAssignments(x);
+      } else {
+        const q = query(collection(db, "assignments"));
 
         const querySnapshot = await getDocs(q);
 
@@ -66,6 +78,10 @@ function AssignmentTable({ authUser }) {
   }, [authUser, calenderState.startDate, calenderState.endDate, user.email]);
 
   const setEditModal = (data) => {
+  
+    if (window.location.pathname.startsWith("/dashboard/manage")) {
+      return dispatch(setOpen("editTask"));
+    }
     dispatch(setOpen("editAssignment"));
     setAssignmentData(data);
   };
@@ -73,9 +89,10 @@ function AssignmentTable({ authUser }) {
   const setDeleteModal = () => {
     dispatch(setDelete());
   };
+
   return (
     <>
-      <EditModal data={assignmentData} />
+      <EditModal data={assignmentData}  />
       <DeleteModal />
       <div class="relative overflow-x-auto ">
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
@@ -112,7 +129,7 @@ function AssignmentTable({ authUser }) {
               //
 
               //
-              <tr className="bg-white border-b ">
+              <tr className="bg-white border-b " key={assignment?.id}>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   {assignment.school}
                 </td>
@@ -124,20 +141,34 @@ function AssignmentTable({ authUser }) {
                 <td className="px-6 py-4">{assignment.status}</td>
 
                 <td className="flex space-x-3  px-6 py-4">
-                  <button
-                    type="button"
-                    onClick={() => setDeleteModal(assignment)}
-                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => setEditModal(assignment)}
-                    type="button"
-                    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
-                  >
-                    Edit
-                  </button>
+                  {window.location.pathname === "/dashboard" ? (
+                    <>
+                      <button
+                        onClick={() => setEditModal(assignment)}
+                        type="button"
+                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
+                      >
+                        Edit
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setDeleteModal(assignment)}
+                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => setEditModal(assignment)}
+                        type="button"
+                        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
+                      >
+                        Edit
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
