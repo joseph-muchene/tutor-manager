@@ -13,11 +13,13 @@ import {
   doc,
 } from "firebase/firestore";
 import { toast } from "react-hot-toast";
-export function EditModal({ data, isEditingUser }) {
+import UpdateUser from "./UpdateUser";
+export function EditModal({ data, isEditingUser, user }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const { open, key, state } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
+
 
   return (
     <div>
@@ -65,7 +67,7 @@ export function EditModal({ data, isEditingUser }) {
                 )}
               {state == "editTask" && EditTask()}
 
-              {state === "editUser" && "hello"}
+              {state === "editUser" && <UpdateUser user={user} />}
             </div>
 
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

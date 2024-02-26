@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { DeleteModal, EditModal } from "../../components/Modal";
 function TutorTable() {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     const data = [];
@@ -24,8 +25,10 @@ function TutorTable() {
 
   const setEditModal = (data) => {
     if (window.location.pathname.startsWith("/dashboard/manage/users")) {
-      return dispatch(setOpen("editUser"));
+      dispatch(setOpen("editUser"));
     }
+
+    setUser(data);
   };
 
   const setDeleteModal = () => {
@@ -33,7 +36,7 @@ function TutorTable() {
   };
   return (
     <>
-      <EditModal isEditingUser={true} />
+      <EditModal isEditingUser={true} user={user} />
       <DeleteModal />
       <div class="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
