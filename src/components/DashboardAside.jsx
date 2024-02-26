@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Users,
@@ -8,7 +8,33 @@ import {
   Notebook,
 } from "lucide-react";
 
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase.config";
+
 export const DashboardAside = () => {
+  const auth = getAuth();
+
+  const navigate = useNavigate();
+
+  const LogOut = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        return navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user === null) {
+        navigate("/");
+      }
+    });
+  });
   return (
     <div>
       <button
@@ -90,7 +116,7 @@ export const DashboardAside = () => {
           </ul>
         </div>
         <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">
-          <button>Log out</button>
+          <button onClick={LogOut}>Log out</button>
         </div>
       </aside>
     </div>

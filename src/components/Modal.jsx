@@ -18,6 +18,8 @@ export function EditModal({ data, isEditingUser, user }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const { open, key, state } = useSelector((state) => state.modal);
+
+  
   const dispatch = useDispatch();
 
 
