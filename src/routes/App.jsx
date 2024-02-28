@@ -8,7 +8,7 @@ import Logo from "../assets/smartbrains.jpeg";
 import { useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { query, where, getDocs } from "firebase/firestore";
-
+import { v4 as uuidv4 } from "uuid";
 export default function App() {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -20,58 +20,58 @@ export default function App() {
   });
 
   const navigate = useNavigate();
-function signInWithPopUp() {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // Check if the user is already registered
-      const user = result.user;
-      const userEmail = user.email;
+  function signInWithPopUp() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Check if the user is already registered
+        const user = result.user;
+        const userEmail = user.email;
 
-      getDocs(collection(firebase.firestore(), "users"))
-        .then((querySnapshot) => {
-          let userExists = false;
-          querySnapshot.forEach((doc) => {
-            if (doc.data().email === userEmail) {
-              userExists = true;
-              return;
-            }
-          });
+        getDocs(collection(firebase.firestore(), "users"))
+          .then((querySnapshot) => {
+            let userExists = false;
+            querySnapshot.forEach((doc) => {
+              if (doc.data().email === userEmail) {
+                userExists = true;
+                return;
+              }
+            });
 
-          if (!userExists) {
-            // User is not registered, add their data to the 'users' collection
-            addDoc(collection(firebase.firestore(), "users"), {
-              email: userEmail,
-              password: "", // Password is an empty string
-            })
-              .then(() => {
-                toast.success("user registered");
-                navigate("/dashbiard");
+            if (!userExists) {
+              // User is not registered, add their data to the 'users' collection
+              addDoc(collection(firebase.firestore(), "users"), {
+                userId: uuidv4(),
+                email: userEmail,
+                password: "", // Password is an empty string
               })
-              .catch((error) => {
-                toast.error("Error adding user: ", error);
-              });
-          } else {
-            toast.error("User is already registered");
-          }
-        })
-        .catch((error) => {
-          console.error("Error checking user registration: ", error);
-        });
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(
-        "Sign in error - Code:",
-        errorCode,
-        "Message:",
-        errorMessage
-      );
-    });
-}
+                .then(() => {
+                  toast.success("user registered");
+                  navigate("/dashbiard");
+                })
+                .catch((error) => {
+                  toast.error("Error adding user: ", error);
+                });
+            } else {
+              toast.error("User is already registered");
+            }
+          })
+          .catch((error) => {
+            console.error("Error checking user registration: ", error);
+          });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(
+          "Sign in error - Code:",
+          errorCode,
+          "Message:",
+          errorMessage
+        );
+      });
+  }
 
-  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -99,6 +99,7 @@ function signInWithPopUp() {
         const email = user?.email;
         // Add a new document with a generated id.
         const docRef = addDoc(collection(db, "users"), {
+          userId: uuidv4(),
           email,
           password,
         }).then(() => {

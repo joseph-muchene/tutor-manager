@@ -5,7 +5,7 @@ const ManageTutors = () => {
   return (
     <div>
       
-      <AssignmentTable authUser={false} />
+      <AssignmentTable authUser={false}  isEditTask={true}/>
     </div>
   );
 };

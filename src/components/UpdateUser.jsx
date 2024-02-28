@@ -11,13 +11,12 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 
 function UpdateUser({ user }) {
-
   const [formData, setFormData] = useState({
-    name: "",
-    status: "",
-    email: "",
-    role: "",
-    password: "",
+    name: user.name,
+    status: user.status,
+    email: user.email,
+    role: user.role,
+    password: user.password,
   });
   const { status } = formData;
   const onChangeHandler = (e, name) => {
@@ -31,7 +30,7 @@ function UpdateUser({ user }) {
     e.preventDefault();
 
     const querySnapshot = await getDocs(
-      query(collection(db, "users"), where("email", "==", user?.email))
+      query(collection(db, "users"), where("userId", "==", user?.userId))
     );
 
     querySnapshot.forEach(async (c) => {
@@ -103,6 +102,7 @@ function UpdateUser({ user }) {
               onChange={(e) => onChangeHandler(e, "role")}
               className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
             >
+              <option value=""></option>
               <option value="regular">regular</option>
               <option value="admin">admin</option>
             </select>
@@ -121,6 +121,7 @@ function UpdateUser({ user }) {
               onChange={(e) => onChangeHandler(e, "status")}
               className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
             >
+              <option value=""></option>
               <option value="active">active</option>
               <option value="not active">not active</option>
             </select>

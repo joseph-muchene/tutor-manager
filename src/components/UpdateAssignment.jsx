@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { db } from "../../firebase.config";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
 import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
-function TutorTable() {
+import { db } from "../firebase.config";
+function UpdateAssignment() {
+  const { task } = useSelector((state) => state.task);
   const [tutors, setTutors] = useState([]);
   const [users, setUsers] = useState([]);
-  
+
   useEffect(() => {
     const data = [];
     async function getUsers() {
@@ -18,19 +20,18 @@ function TutorTable() {
       });
 
       setUsers(data);
-    
     }
 
     getUsers();
   }, []);
 
   const [formData, setFormData] = useState({
-    school: "",
-    leadTutor: "",
-    arrivalTime: "",
-    assignedTutor: "",
-    numberOfLaptops: "",
-    comments: "",
+    school: task?.school,
+    leadTutor: task?.leadTutor,
+    arrivalTime: task?.arrivalTime,
+    assignedTutor: task?.assignedTutor,
+    numberOfLaptops: task?.numberOfLaptops,
+    comments: task?.comments,
   });
 
   const handleChange = (e) => {
@@ -71,7 +72,7 @@ function TutorTable() {
 
   return (
     <div>
-      <h2 className="text-lg font-bold mb-4">Assign Task to Tutor</h2>
+      <h2 className="text-lg font-bold mb-4">update tutor assignment</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
@@ -222,4 +223,4 @@ function formatDate(dateString) {
   return date.toLocaleDateString("en-GB", options);
 }
 
-export default TutorTable;
+export default UpdateAssignment;

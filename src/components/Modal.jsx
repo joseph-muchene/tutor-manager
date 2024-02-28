@@ -14,15 +14,15 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 import UpdateUser from "./UpdateUser";
-export function EditModal({ data, isEditingUser, user }) {
+import UpdateAssignment from "./UpdateAssignment";
+export function EditModal({ data, isEditingUser, user, isEditTask }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const { open, key, state } = useSelector((state) => state.modal);
 
-  
   const dispatch = useDispatch();
 
-
+  console.log("data", data);
   return (
     <div>
       <div
@@ -67,7 +67,7 @@ export function EditModal({ data, isEditingUser, user }) {
                   comment,
                   status
                 )}
-              {state == "editTask" && EditTask()}
+              {state == "editTask" && EditTask(isEditTask)}
 
               {state === "editUser" && <UpdateUser user={user} />}
             </div>
@@ -261,10 +261,10 @@ function EditAssignment(key, setStatus, setComment, comment, status) {
   );
 }
 
-function EditTask() {
+function EditTask({ isEditTask }) {
   return (
     <div>
-      <AssignTutors />
+      <UpdateAssignment />
     </div>
   );
 }

@@ -34,6 +34,9 @@ function TutorTable() {
   const setDeleteModal = () => {
     dispatch(setDelete());
   };
+
+
+  
   return (
     <>
       <EditModal isEditingUser={true} user={user} />
@@ -67,11 +70,11 @@ function TutorTable() {
             {users.map((user) => (
               <tr className="bg-white border-b  ">
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                  TUTOR
+                  {user?.name}
                 </td>
                 <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4"> TUTOR</td>
-                <td className="px-6 py-4">Active</td>
+                <td className="px-6 py-4"> {user.role}</td>
+                <td className="px-6 py-4">{user.status}</td>
                 <td className="px-6 py-4">{user.password}</td>
 
                 <td className="flex space-x-3  px-6 py-4">

@@ -5,13 +5,15 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { setDelete, setOpen } from "../app/feartures/modalSlice";
 import { DeleteModal, EditModal } from "./Modal";
-function AssignmentTable({ authUser }) {
+import { addTask } from "../app/feartures/taskSlice";
+function AssignmentTable({ authUser, isEditTask }) {
   const [user, setUser] = useState({});
   const [assignments, setAssignments] = useState([]);
   const [assignmentData, setAssignmentData] = useState({});
   const [id, setId] = useState("");
   const calenderState = useSelector((state) => state.calender);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       // Fetch user once when the component mounts
@@ -74,6 +76,7 @@ function AssignmentTable({ authUser }) {
 
   const setEditModal = (data) => {
     if (window.location.pathname.startsWith("/dashboard/manage")) {
+      dispatch(addTask(data));
       return dispatch(setOpen("editTask"));
     }
     dispatch(setOpen("editAssignment"));
@@ -86,7 +89,7 @@ function AssignmentTable({ authUser }) {
 
   return (
     <>
-      <EditModal data={assignmentData} />
+      <EditModal data={assignmentData} isEditTask={isEditTask} />
       <DeleteModal />
       <div class="relative overflow-x-auto ">
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
@@ -135,34 +138,27 @@ function AssignmentTable({ authUser }) {
                 <td className="px-6 py-4">{assignment.status}</td>
 
                 <td className="flex space-x-3  px-6 py-4">
-                  {window.location.pathname === "/dashboard" ? (
-                    <>
-                      <button
-                        onClick={() => setEditModal(assignment)}
-                        type="button"
-                        class="text-white  bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
-                      >
-                        Edit
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => setDeleteModal(assignment)}
-                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() => setEditModal(assignment)}
-                        type="button"
-                        class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
-                      >
-                        Edit
-                      </button>
-                    </>
-                  )}
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setDeleteModal(assignment)}
+                      disabled={
+                        !window.location.pathname.startsWith(
+                          "/dashboard/manage"
+                        )
+                      }
+                      class=" py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => setEditModal(assignment)}
+                      type="button"
+                      class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
+                    >
+                      Edit
+                    </button>
+                  </>
                 </td>
               </tr>
             ))}
