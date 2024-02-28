@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
-import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../firebase.config";
 function UpdateAssignment() {
   const { task } = useSelector((state) => state.task);
@@ -41,39 +47,32 @@ function UpdateAssignment() {
       [name]: value,
     });
   };
-
-  const handleSubmit = async (e) => {
+  const updateUser = async (e) => {
     e.preventDefault();
-    // Here you can handle form submission, such as adding the task to the database or updating the state
-    // Add a new document with a generated id.
+    console.log("hekki");
+    const querySnapshot = await getDocs(
+      query(collection(db, "assignments"), where("key", "==", task?.key))
+    );
 
-    const parsedDate = new Date(formatDate(formData.dateAssigned));
+    querySnapshot.forEach(async (c) => {
+      console.log("executed here");
+      try {
+        // Construct document reference using doc() function
+        const docRef = doc(db, `assignments`, c.id);
 
-    const unixTimestamp = parsedDate.getTime() / 1000;
-    const docRef = await addDoc(collection(db, "assignments"), {
-      ...formData,
-      dateAssigned: unixTimestamp,
-      key: uuidv4(),
-      status: "IN PROGRESS",
-    });
-    if (docRef.id) {
-      toast.success("Assignment created");
-    }
-    // Reset the form after submission
-    setFormData({
-      school: "",
-      leadTutor: "",
-      arrivalTime: "",
-      assignedTutor: "",
-      numberOfLaptops: "",
-      comments: "",
+        await updateDoc(docRef, formData);
+
+        toast.success(`Document ${c.id}  successfully updated `);
+      } catch (error) {
+        console.log(error.message);
+        toast.error(`Error updating document `);
+      }
     });
   };
-
   return (
     <div>
       <h2 className="text-lg font-bold mb-4">update tutor assignment</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={updateUser}>
         <div className="mb-4">
           <label
             htmlFor="school"
@@ -209,7 +208,7 @@ function UpdateAssignment() {
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
           >
-            Assign Task
+            update assignment
           </button>
         </div>
       </form>
