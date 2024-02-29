@@ -2,30 +2,15 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
-
+import jsPDF from "jspdf";
+import Logo from "../assets/smartbrains.jpeg";
+import "jspdf-autotable";
 export default function ReportsData() {
   const [reports, setReports] = useState([]);
   const { user } = useSelector((state) => state.user);
 
-  const sampleData = [
-    {
-      school: "Sample School 1",
-      comments: "Great performance by students",
-      numberOfClasses: 5,
-      leadTutor: "john.doe@example.com",
-      assignedTutor: "jane.smith@example.com",
-      date: "2024-02-29",
-    },
-    {
-      school: "Sample School 2",
-      comments: "Need improvement in math",
-      numberOfClasses: 3,
-      leadTutor: "alice.johnson@example.com",
-      assignedTutor: "bob.brown@example.com",
-      date: "2024-02-28",
-    },
-    // Add more sample data as needed
-  ];
+  // Create a new PDF instance
+  const doc = new jsPDF();
 
   useEffect(() => {
     async function fetchAssignment() {
@@ -45,6 +30,73 @@ export default function ReportsData() {
     }
     fetchAssignment();
   }, [user, db]);
+
+  function generateAndDownloadReports() {
+    // Create a new PDF instance
+    const doc = new jsPDF();
+
+    // Add logo
+    const logo = new Image();
+
+    logo.src = Logo; // Provide the path to your logo image
+    doc.addImage(logo, "PNG", 10, 10, 30, 30); // Adjust the position and size as needed
+    // Add table with additional information
+    const additionalInfoHeaders = [["Name", "Email", "Month", "Mobile Number"]];
+    const additionalInfoRows = [
+      [
+        user.name,
+        user?.email,
+        months[new Date().getMonth()],
+        user?.mobileNumber,
+      ],
+    ];
+    doc.autoTable({
+      head: additionalInfoHeaders,
+      body: additionalInfoRows,
+      startY: 40,
+    });
+
+    // Set up table headers for reports
+    const headers = [
+      [
+        "School",
+        "Arrival time",
+        "Comments",
+        "NO of classes",
+        "Lead Tutor",
+        "Assigned Tutor",
+        "Status",
+        "Date",
+      ],
+    ];
+
+    // Convert data to table rows for reports
+    const rows = reports.map((report) => [
+      report.school,
+      report.arrivalTime,
+      report.comments,
+      report.numberOfClasses,
+      report.leadTutor,
+      report.assignedTutor,
+      report.status,
+      report.date,
+    ]);
+
+    // Add the table headers and rows for reports to the PDF
+    doc.autoTable({ head: headers, body: rows }); // Adjust startY to leave space for the additional table
+
+    // Save the PDF with a unique name
+    doc.save(`report-${user?.email}.pdf`);
+  }
+
+  // Function to get the week number of the year
+  function getWeekNumber(date) {
+    const onejan = new Date(date.getFullYear(), 0, 1);
+    const millisecsInDay = 86400000;
+    return Math.ceil(
+      ((date - onejan) / millisecsInDay + onejan.getDay() + 1) / 7
+    );
+  }
   return (
     <div>
       <div class="relative">
@@ -94,11 +146,11 @@ export default function ReportsData() {
                 <td className="px-6 py-4">{data.status}</td>
                 <td className="px-6 py-4">{data.date}</td>
                 <td className="px-6 py-4 flex justify-center">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                  <button
+                    onClick={generateAndDownloadReports}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  >
                     Generate
-                  </button>
-                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Download
                   </button>
                 </td>
               </tr>
@@ -109,3 +161,17 @@ export default function ReportsData() {
     </div>
   );
 }
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
