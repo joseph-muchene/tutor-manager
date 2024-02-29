@@ -160,7 +160,7 @@ export const DashboardAside = () => {
           </ul>
         </div>
 
-        <li>
+        {/* <li>
           <Link
             className="flex items-center space-x-3"
         
@@ -169,7 +169,7 @@ export const DashboardAside = () => {
               <button onClick={LogOut}>Log out</button>
             </div>
           </Link>
-        </li>
+        </li> */}
       </aside>
     </div>
   );
