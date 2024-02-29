@@ -4,7 +4,12 @@ import { db } from "../../firebase.config";
 import { setDelete, setOpen } from "../../app/feartures/modalSlice";
 import { useDispatch } from "react-redux";
 import { DeleteModal, EditModal } from "../../components/Modal";
+import { useUser } from "../../app/rtkHooks/useUser";
 function TutorTable() {
+  // user from state --- important with redirects
+  // console.log("use-x", user);
+  const _ = useUser();
+  console.log("_", _);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
   const dispatch = useDispatch();
@@ -35,8 +40,6 @@ function TutorTable() {
     dispatch(setDelete());
   };
 
-
-  
   return (
     <>
       <EditModal isEditingUser={true} user={user} />

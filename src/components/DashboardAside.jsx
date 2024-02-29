@@ -11,13 +11,15 @@ import {
 
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { auth, db } from "../firebase.config";
+import { setUserResult } from "../app/feartures/userSlice";
 
 export const DashboardAside = () => {
   const [user, setUser] = useState(null);
   const [isAdminUser, setIsAdminUser] = useState(false);
   const auth = getAuth();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const LogOut = () => {
@@ -58,6 +60,7 @@ export const DashboardAside = () => {
 
       if (user) {
         if (x[0].role == "admin") {
+          dispatch(setUserResult(x[0]));
           setIsAdminUser(true);
         }
       }
