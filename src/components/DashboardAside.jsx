@@ -17,6 +17,7 @@ import { setUserResult } from "../app/feartures/userSlice";
 
 export const DashboardAside = () => {
   const [user, setUser] = useState(null);
+  const [toggle, setToggle] = useState(false);
   const [isAdminUser, setIsAdminUser] = useState(false);
   const auth = getAuth();
   const dispatch = useDispatch();
@@ -57,29 +58,25 @@ export const DashboardAside = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      
-    
+
       if (user && user.email) {
         if (x[0].role == "admin") {
           dispatch(setUserResult(x[0]));
           setIsAdminUser(true);
-
         }
       }
 
       // return setAssignments(x);
     }
     checkUser();
-  }, );
+  });
 
   return (
     <div>
       <button
-        data-drawer-target="sidebar-multi-level-sidebar"
-        data-drawer-toggle="sidebar-multi-level-sidebar"
-        aria-controls="sidebar-multi-level-sidebar"
         type="button"
-        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200 "
+        onClick={() => setToggle(!toggle)}
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg   focus:outline-none focus:ring-2 focus:ring-gray-200 "
       >
         <span class="sr-only">Open sidebar</span>
         <svg
@@ -99,11 +96,19 @@ export const DashboardAside = () => {
 
       <aside
         id="default-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
+        class={`fixed top-0 left-0 z-40 w-64 h-[100vh] transition-transform ${
+          !toggle ? "-translate-x-full" : ""
+        } sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul class="space-y-10 font-medium">
+            <button
+              onClick={() => setToggle(!toggle)}
+              className="absolute top-2 right-4  text-gray-500 rounded-lg "
+            >
+              <span className="text-3xl">x</span>
+            </button>
             <li>
               <Link className="flex items-center space-x-3" to={`/dashboard`}>
                 <LayoutDashboard />
@@ -160,16 +165,13 @@ export const DashboardAside = () => {
           </ul>
         </div>
 
-        {/* <li>
-          <Link
-            className="flex items-center space-x-3"
-        
-          >
+        <li>
+          <Link className="flex items-center space-x-3">
             <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">
               <button onClick={LogOut}>Log out</button>
             </div>
           </Link>
-        </li> */}
+        </li>
       </aside>
     </div>
   );
