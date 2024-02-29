@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import {
   Users,
   ClipboardList,
@@ -10,9 +11,11 @@ import {
 
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase.config";
+import { auth, db } from "../firebase.config";
 
 export const DashboardAside = () => {
+  const [user, setUser] = useState(null);
+  const [isAdminUser, setIsAdminUser] = useState(false);
   const auth = getAuth();
 
   const navigate = useNavigate();
@@ -32,9 +35,38 @@ export const DashboardAside = () => {
     onAuthStateChanged(auth, (user) => {
       if (user === null) {
         navigate("/");
+      } else {
+        setUser(user);
       }
     });
-  });
+  }, [auth]);
+
+  // fetch user
+  useEffect(() => {
+    async function checkUser() {
+      const q = query(
+        collection(db, "users"),
+        where("email", "==", user?.email)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      const x = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      if (user) {
+        if (x[0].role == "admin") {
+          setIsAdminUser(true);
+        }
+      }
+
+      // return setAssignments(x);
+    }
+    checkUser();
+  }, [user]);
+
   return (
     <div>
       <button
@@ -79,40 +111,50 @@ export const DashboardAside = () => {
                 <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
               </Link>
             </li>
-            <li>
-              <Link
-                className="flex items-center space-x-3"
-                to={`/dashboard/assign/jobs`}
-              >
-                <School />
-                <span class="flex-1 ms-3 whitespace-nowrap">Assign task</span>
-              </Link>
-            </li>
-            {/* <li className="flex items-center space-x-3"></li>{" "} */}
-            <li>
-              <Link
-                className="flex items-center space-x-3"
-                to={`/dashboard/manage/jobs`}
-              >
-                <ClipboardList />
-                <span class="flex-1 ms-3 whitespace-nowrap">Manage tasks</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="flex items-center space-x-3"
-                to={`/dashboard/manage/users`}
-              >
-                <Users />
-                <span class="flex-1 ms-3 whitespace-nowrap">Manage Users</span>
-              </Link>
-            </li>
-            <li>
-              <Link className="flex items-center space-x-3" to={`#`}>
-                <Notebook />
-                <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
-              </Link>
-            </li>
+            {isAdminUser && (
+              <>
+                <li>
+                  <Link
+                    className="flex items-center space-x-3"
+                    to={`/dashboard/assign/jobs`}
+                  >
+                    <School />
+                    <span class="flex-1 ms-3 whitespace-nowrap">
+                      Assign task
+                    </span>
+                  </Link>
+                </li>
+                {/* <li className="flex items-center space-x-3"></li>{" "} */}
+                <li>
+                  <Link
+                    className="flex items-center space-x-3"
+                    to={`/dashboard/manage/jobs`}
+                  >
+                    <ClipboardList />
+                    <span class="flex-1 ms-3 whitespace-nowrap">
+                      Manage tasks
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="flex items-center space-x-3"
+                    to={`/dashboard/manage/users`}
+                  >
+                    <Users />
+                    <span class="flex-1 ms-3 whitespace-nowrap">
+                      Manage Users
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link className="flex items-center space-x-3" to={`#`}>
+                    <Notebook />
+                    <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">

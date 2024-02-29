@@ -22,7 +22,7 @@ export function EditModal({ data, isEditingUser, user, isEditTask }) {
 
   const dispatch = useDispatch();
 
-  console.log("data", data);
+ 
   return (
     <div>
       <div
@@ -191,7 +191,7 @@ function EditAssignment(key, setStatus, setComment, comment, status) {
   const updateAssignment = async (e) => {
     e.preventDefault();
 
-    console.log(key);
+    
     const querySnapshot = await getDocs(
       query(collection(db, "assignments"), where("key", "==", key))
     );

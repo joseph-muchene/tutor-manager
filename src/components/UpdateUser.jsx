@@ -44,7 +44,7 @@ function UpdateUser({ user }) {
           `Document ${c.id} status successfully updated to ${status}`
         );
       } catch (error) {
-        console.log(error.message);
+       
         toast.error(`Error updating document ${doc.id} status: ${error}`);
       }
     });

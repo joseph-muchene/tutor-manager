@@ -27,7 +27,7 @@ export default function App() {
         const user = result.user;
         const userEmail = user.email;
 
-        getDocs(collection(firebase.firestore(), "users"))
+        getDocs(collection(db, "users"))
           .then((querySnapshot) => {
             let userExists = false;
             querySnapshot.forEach((doc) => {
@@ -39,14 +39,14 @@ export default function App() {
 
             if (!userExists) {
               // User is not registered, add their data to the 'users' collection
-              addDoc(collection(firebase.firestore(), "users"), {
+              addDoc(collection(db, "users"), {
                 userId: uuidv4(),
                 email: userEmail,
                 password: "", // Password is an empty string
               })
                 .then(() => {
                   toast.success("user registered");
-                  navigate("/dashbiard");
+                  navigate("/dashboard");
                 })
                 .catch((error) => {
                   toast.error("Error adding user: ", error);

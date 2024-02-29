@@ -49,13 +49,13 @@ function UpdateAssignment() {
   };
   const updateUser = async (e) => {
     e.preventDefault();
-    console.log("hekki");
+   
     const querySnapshot = await getDocs(
       query(collection(db, "assignments"), where("key", "==", task?.key))
     );
 
     querySnapshot.forEach(async (c) => {
-      console.log("executed here");
+ 
       try {
         // Construct document reference using doc() function
         const docRef = doc(db, `assignments`, c.id);
@@ -64,7 +64,7 @@ function UpdateAssignment() {
 
         toast.success(`Document ${c.id}  successfully updated `);
       } catch (error) {
-        console.log(error.message);
+   
         toast.error(`Error updating document `);
       }
     });

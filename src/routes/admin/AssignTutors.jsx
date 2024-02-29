@@ -6,7 +6,7 @@ import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
 function TutorTable() {
   const [tutors, setTutors] = useState([]);
   const [users, setUsers] = useState([]);
-  
+
   useEffect(() => {
     const data = [];
     async function getUsers() {
@@ -18,7 +18,6 @@ function TutorTable() {
       });
 
       setUsers(data);
-    
     }
 
     getUsers();
@@ -46,12 +45,9 @@ function TutorTable() {
     // Here you can handle form submission, such as adding the task to the database or updating the state
     // Add a new document with a generated id.
 
-    const parsedDate = new Date(formatDate(formData.dateAssigned));
-
-    const unixTimestamp = parsedDate.getTime() / 1000;
     const docRef = await addDoc(collection(db, "assignments"), {
       ...formData,
-      dateAssigned: unixTimestamp,
+      dateAssigned: formatDate(formData.dateAssigned),
       key: uuidv4(),
       status: "IN PROGRESS",
     });

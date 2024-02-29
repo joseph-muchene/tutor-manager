@@ -23,15 +23,11 @@ function AssignmentTable({ authUser, isEditTask }) {
 
       // Fetch assignments only if authUser, user.email, and calendar dates exist
       if (calenderState.startDate && calenderState.endDate) {
-        const startparsedDate = new Date(calenderState.startDate);
-        const startunixTimestamp = startparsedDate.getTime() / 1000;
-        const endparsedDate = new Date(calenderState.startDate);
-        const endunixTimestamp = endparsedDate.getTime() / 1000;
         const q = query(
           collection(db, "assignments"),
           where("leadTutor", "==", user?.email),
-          where("dateAssigned", ">=", startunixTimestamp), // Start of the range
-          where("dateAssigned", "<=", endunixTimestamp) // End of the range
+          where("dateAssigned", ">=", calenderState.startDate), // Start of the range
+          where("dateAssigned", "<=", calenderState.endDate) // End of the range
         );
 
         const querySnapshot = await getDocs(q);
