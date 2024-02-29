@@ -99,7 +99,7 @@ export const DashboardAside = () => {
 
       <aside
         id="default-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-[100vh] transition-transform -translate-x-full sm:translate-x-0"
+        class="fixed top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -159,9 +159,17 @@ export const DashboardAside = () => {
             )}
           </ul>
         </div>
-        <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">
-          <button onClick={LogOut}>Log out</button>
-        </div>
+
+        <li>
+          <Link
+            className="flex items-center space-x-3"
+        
+          >
+            <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">
+              <button onClick={LogOut}>Log out</button>
+            </div>
+          </Link>
+        </li>
       </aside>
     </div>
   );
