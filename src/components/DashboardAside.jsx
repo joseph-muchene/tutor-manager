@@ -151,7 +151,10 @@ export const DashboardAside = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="flex items-center space-x-3" to={`#`}>
+                  <Link
+                    className="flex items-center space-x-3"
+                    to={`/dashboard/reports`}
+                  >
                     <Notebook />
                     <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
                   </Link>

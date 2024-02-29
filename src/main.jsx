@@ -12,6 +12,8 @@ import ManageJobs from "./routes/admin/ManageJobs";
 import ManageTutors from "./routes/admin/ManageTutors";
 
 import { store } from "./app/store";
+import Report from "./routes/Report";
+
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage/users",
         element: <ManageTutors />,
+      },
+      {
+        path: "/dashboard/reports",
+        element: <Report />,
       },
     ],
   },
