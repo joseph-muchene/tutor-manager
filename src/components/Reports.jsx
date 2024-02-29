@@ -16,7 +16,8 @@ export default function ReportsData() {
     async function fetchAssignment() {
       const q = query(
         collection(db, "assignments"),
-        where("leadTutor", "==", user?.email)
+        where("leadTutor", "==", user?.email),
+        where("status", "==", "completed")
       );
 
       const querySnapshot = await getDocs(q);

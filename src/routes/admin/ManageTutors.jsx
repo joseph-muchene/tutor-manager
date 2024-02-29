@@ -9,7 +9,6 @@ function TutorTable() {
   // user from state --- important with redirects
   // console.log("use-x", user);
   const _ = useUser();
-  console.log("_", _);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
   const dispatch = useDispatch();

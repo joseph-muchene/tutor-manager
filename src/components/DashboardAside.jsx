@@ -57,18 +57,20 @@ export const DashboardAside = () => {
         id: doc.id,
         ...doc.data(),
       }));
-
-      if (user) {
+      
+    
+      if (user && user.email) {
         if (x[0].role == "admin") {
           dispatch(setUserResult(x[0]));
           setIsAdminUser(true);
+
         }
       }
 
       // return setAssignments(x);
     }
     checkUser();
-  }, [user]);
+  }, );
 
   return (
     <div>

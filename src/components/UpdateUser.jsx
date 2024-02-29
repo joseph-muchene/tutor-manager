@@ -17,6 +17,7 @@ function UpdateUser({ user }) {
     email: user.email,
     role: user.role,
     password: user.password,
+    mobileNumber: "",
   });
   const { status } = formData;
   const onChangeHandler = (e, name) => {
@@ -44,7 +45,6 @@ function UpdateUser({ user }) {
           `Document ${c.id} status successfully updated to ${status}`
         );
       } catch (error) {
-       
         toast.error(`Error updating document ${doc.id} status: ${error}`);
       }
     });
@@ -125,6 +125,23 @@ function UpdateUser({ user }) {
               <option value="active">active</option>
               <option value="not active">not active</option>
             </select>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="mobile Number"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Mobile Number
+            </label>
+
+            <input
+              type="tel"
+              id="mobileNumber"
+              onChange={(e) => onChangeHandler(e, "mobileNumber")}
+              name="mobileNumber"
+              defaultValue={user?.mobileNumber}
+              className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+            />
           </div>
           <div className="mb-4">
             <label
