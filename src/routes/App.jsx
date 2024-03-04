@@ -127,7 +127,7 @@ export default function App() {
               value={name}
               onChange={onChangeHandlerName}
               type="text"
-              className="border rounded p-[5px] "
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             />
           </div>
           <div className="flex flex-col space-y-3 mb-3">
@@ -136,7 +136,7 @@ export default function App() {
               type="email"
               value={email}
               onChange={onChangeHandlerEmail}
-              className="border rounded p-[5px]"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             />
           </div>
           <div className="flex flex-col space-y-3 mb-3">
@@ -145,7 +145,7 @@ export default function App() {
               value={password}
               onChange={onChangeHandlerPassword}
               type="password"
-              className="border rounded p-[5px] "
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             />
           </div>
           <div>
