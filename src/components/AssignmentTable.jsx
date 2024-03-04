@@ -24,7 +24,7 @@ function AssignmentTable({ authUser, isEditTask }) {
 
       // Fetch assignments only if authUser, user.email, and calendar dates exist
       if (calenderState.startDate && calenderState.endDate) {
-        console.log(calenderState)
+    
         const q = query(
           collection(db, "assignments"),
           where("dateAssigned", ">=", calenderState.startDate), // Start of the range
