@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../firebase.config";
 import { provider } from "../auth/provider";
 import Logo from "../assets/smartbrains.jpeg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { query, where, getDocs } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
@@ -119,7 +119,7 @@ export default function App() {
   return (
     <>
       <div className="mx-auto md:w-[700px] h-[100vh] flex flex-col  justify-center items-center">
-        <img src={Logo} alt="" srcset="" className="rounded-full h-32" />
+        <img src={Logo} alt="" className="rounded-full h-32" />
         <form onSubmit={createUser} className="md:w-[400px]">
           <div className="flex flex-col space-y-3 mb-3">
             <label htmlFor="name">Name</label>
@@ -155,6 +155,10 @@ export default function App() {
             >
               Create user account
             </button>
+
+            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                      Already have an account? <Link to="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</Link>
+                  </p>
           </div>
 
           <div className="flex justify-center items-center my-4">

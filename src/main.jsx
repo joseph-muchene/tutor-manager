@@ -13,12 +13,17 @@ import ManageTutors from "./routes/admin/ManageTutors";
 
 import { store } from "./app/store";
 import Report from "./routes/Report";
+import Login from "./routes/Login";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "/dashboard",
