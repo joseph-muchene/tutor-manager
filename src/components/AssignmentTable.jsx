@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { setDelete, setOpen } from "../app/feartures/modalSlice";
-import { DeleteModal, EditModal } from "./Modal";
+import {  setOpen } from "../app/feartures/modalSlice";
+import { EditModal } from "./Modal";
+import {toast} from 'react-hot-toast'
 import { addTask } from "../app/feartures/taskSlice";
 function AssignmentTable({ authUser, isEditTask }) {
   const [user, setUser] = useState({});
@@ -23,33 +24,37 @@ function AssignmentTable({ authUser, isEditTask }) {
 
       // Fetch assignments only if authUser, user.email, and calendar dates exist
       if (calenderState.startDate && calenderState.endDate) {
+        console.log(calenderState)
         const q = query(
           collection(db, "assignments"),
-          where("leadTutor", "==", user?.email),
           where("dateAssigned", ">=", calenderState.startDate), // Start of the range
           where("dateAssigned", "<=", calenderState.endDate) // End of the range
         );
 
         const querySnapshot = await getDocs(q);
 
-        const x = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const x = querySnapshot.docs
+  .filter(doc => doc.data().assignedTutor === user?.email || doc.data().leadTutor === user?.email)
+  .map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 
         return setAssignments(x);
       }
       if (authUser) {
         const q = query(
           collection(db, "assignments"),
-          where("leadTutor", "==", user?.email)
+          
         );
 
         const querySnapshot = await getDocs(q);
 
-        const x = querySnapshot.docs.map((doc) => ({
+        const x = querySnapshot.docs
+        .filter(doc => doc.data().assignedTutor === user?.email || doc.data().leadTutor === user?.email)
+        .map(doc => ({
           id: doc.id,
-          ...doc.data(),
+          ...doc.data()
         }));
 
         setAssignments(x);
@@ -79,14 +84,34 @@ function AssignmentTable({ authUser, isEditTask }) {
     setAssignmentData(data);
   };
 
-  const setDeleteModal = () => {
-    dispatch(setDelete());
-  };
+ 
+  const removeAssignment = async(assignment) => {
+    if(!user.role == "admin"){
+      return toast.error("Not authorized")
+    }
+      try {
+        
+        if(confirm("Are you sure you want to delete assignment?")){
+       await deleteDoc(doc(db, "assignments", assignment?.id));
+       toast.success("Document was removed")
 
+       setTimeout(()=>{
+        return window.location.reload()
+       },3000)
+       
+        }else{
+
+      return     toast.error("cancelled")
+        }
+
+      } catch (error) {
+        console.log("REMOVE ASSIGNMENT ERROR",error)
+      }
+  }
   return (
     <>
+   
       <EditModal data={assignmentData} isEditTask={isEditTask} />
-      <DeleteModal />
       <div class="relative overflow-x-auto ">
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase   ">
@@ -137,7 +162,8 @@ function AssignmentTable({ authUser, isEditTask }) {
                   <>
                     <button
                       type="button"
-                      onClick={() => setDeleteModal(assignment)}
+                      onClick={() =>removeAssignment(assignment)}
+                      // onClick={() => setDeleteModal(assignment)}
                       disabled={
                         !window.location.pathname.startsWith(
                           "/dashboard/manage"

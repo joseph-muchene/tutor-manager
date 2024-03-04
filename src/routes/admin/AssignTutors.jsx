@@ -218,8 +218,9 @@ function TutorTable() {
 
 function formatDate(dateString) {
   const date = new Date(dateString);
-  const options = { day: "numeric", month: "short", year: "numeric" };
+  const options = { day: "2-digit", month: "short", year: "numeric" };
   return date.toLocaleDateString("en-GB", options);
 }
+
 
 export default TutorTable;

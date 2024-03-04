@@ -1,13 +1,16 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase.config";
-import { setDelete, setOpen } from "../../app/feartures/modalSlice";
-import { useDispatch } from "react-redux";
-import { DeleteModal, EditModal } from "../../components/Modal";
+import { setOpen } from "../../app/feartures/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {  EditModal } from "../../components/Modal";
 import { useUser } from "../../app/rtkHooks/useUser";
+import {toast} from 'react-hot-toast'
+
 function TutorTable() {
   // user from state --- important with redirects
   // console.log("use-x", user);
+  const userFromState = useSelector(state => state.user)
   const _ = useUser();
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
@@ -35,14 +38,36 @@ function TutorTable() {
     setUser(data);
   };
 
-  const setDeleteModal = () => {
-    dispatch(setDelete());
-  };
+ 
+  const removeUser = async(user) => {
+    if(user.role !== "admin"){
+      return toast.error("Not authorized")
+    }
+      try {
+        
+        if(confirm("Are you sure you want to delete user?")){
+          console.log(user)
+       await deleteDoc(doc(db, "users", user?.id));
+       toast.success("Document was removed")
+
+       setTimeout(()=>{
+        return window.location.reload()
+       },3000)
+       
+        }else{
+
+      return     toast.error("cancelled")
+        }
+
+      } catch (error) {
+        console.log("REMOVE ASSIGNMENT ERROR",error)
+      }
+  }
 
   return (
     <>
       <EditModal isEditingUser={true} user={user} />
-      <DeleteModal />
+ 
       <div class="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase ">
@@ -74,7 +99,7 @@ function TutorTable() {
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   {user?.name}
                 </td>
-                <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 py-4">{user.email} {user.email === userFromState.user.email && "(you)"}</td>
                 <td className="px-6 py-4"> {user.role}</td>
                 <td className="px-6 py-4">{user.status}</td>
                 <td className="px-6 py-4">{user.password}</td>
@@ -89,7 +114,8 @@ function TutorTable() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => dispatch(setDelete())}
+                    onClick={()=>removeUser(user)}
+              
                     class="text-white bg-red-500 ocus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 "
                   >
                     Delete

@@ -16,16 +16,19 @@ export default function ReportsData() {
     async function fetchAssignment() {
       const q = query(
         collection(db, "assignments"),
-        where("leadTutor", "==", user?.email),
         where("status", "==", "completed")
       );
 
+
       const querySnapshot = await getDocs(q);
 
-      const x = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const x = querySnapshot.docs
+        .filter(doc => doc.data().assignedTutor === user?.email || doc.data().leadTutor === user?.email)
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
 
       return setReports(x);
     }
@@ -90,17 +93,16 @@ export default function ReportsData() {
     doc.save(`report-${user?.email}.pdf`);
   }
 
-  // Function to get the week number of the year
-  function getWeekNumber(date) {
-    const onejan = new Date(date.getFullYear(), 0, 1);
-    const millisecsInDay = 86400000;
-    return Math.ceil(
-      ((date - onejan) / millisecsInDay + onejan.getDay() + 1) / 7
-    );
-  }
+
   return (
     <div>
       <div class="relative">
+        <button
+          onClick={generateAndDownloadReports}
+          className=" my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          Generate Report
+        </button>
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
           <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
             {/* arrivalTime : "20:25" assignedTutor : "ken@gmail.com" comments :
@@ -128,7 +130,7 @@ export default function ReportsData() {
               <th>Status</th>
               <th>Date</th>
 
-              <th>Actions</th>
+
             </tr>
           </thead>
           <tbody>
@@ -146,14 +148,7 @@ export default function ReportsData() {
                 <td className="px-6 py-4">{data.assignedTutor}</td>
                 <td className="px-6 py-4">{data.status}</td>
                 <td className="px-6 py-4">{data.date}</td>
-                <td className="px-6 py-4 flex justify-center">
-                  <button
-                    onClick={generateAndDownloadReports}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  >
-                    Generate
-                  </button>
-                </td>
+
               </tr>
             ))}
           </tbody>

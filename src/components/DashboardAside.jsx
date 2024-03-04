@@ -96,23 +96,45 @@ export const DashboardAside = () => {
 
       <aside
         id="default-sidebar"
-        class={`fixed top-0 left-0 z-40 w-64 h-[100vh] transition-transform ${
-          !toggle ? "-translate-x-full" : ""
-        } sm:translate-x-0`}
+        class={`fixed top-0 left-0 z-40 w-64 h-[100vh] transition-transform ${!toggle ? "-translate-x-full" : ""
+          } sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul class="space-y-10 font-medium">
             <button
               onClick={() => setToggle(!toggle)}
-              className="absolute top-2 right-4  text-gray-500 rounded-lg "
+              className="absolute top-4 right-4  text-gray-500 rounded-lg "
             >
-              <span className="text-3xl">x</span>
+              <svg
+                class="w-3 h-3 md:hidden"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
             </button>
             <li>
               <Link className="flex items-center space-x-3" to={`/dashboard`}>
                 <LayoutDashboard />
                 <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="flex items-center space-x-3"
+                to={`/dashboard/reports`}
+              >
+                <Notebook />
+                <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
               </Link>
             </li>
             {isAdminUser && (
@@ -151,15 +173,7 @@ export const DashboardAside = () => {
                     </span>
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    className="flex items-center space-x-3"
-                    to={`/dashboard/reports`}
-                  >
-                    <Notebook />
-                    <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
-                  </Link>
-                </li>
+
               </>
             )}
           </ul>
