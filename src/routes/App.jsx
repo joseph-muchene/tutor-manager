@@ -100,6 +100,7 @@ export default function App() {
         // Add a new document with a generated id.
         const docRef = addDoc(collection(db, "users"), {
           userId: uuidv4(),
+          name,
           email,
           password,
         }).then(() => {
@@ -154,6 +155,10 @@ export default function App() {
             >
               Create user account
             </button>
+          </div>
+
+          <div className="flex justify-center items-center my-4">
+            <p className="text-center text-xl">or</p>
           </div>
 
           <div className="flex justify-center items-center">
