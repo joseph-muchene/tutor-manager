@@ -73,6 +73,7 @@ export default function ReportsData() {
         "Date",
       ],
     ];
+ 
 
     // Convert data to table rows for reports
     const rows = reports.map((report) => [
@@ -83,7 +84,7 @@ export default function ReportsData() {
       report.leadTutor,
       report.assignedTutor,
       report.status,
-      report.date,
+      report.dateAssigned,
     ]);
 
     // Add the table headers and rows for reports to the PDF
@@ -147,7 +148,7 @@ export default function ReportsData() {
                 <td className="px-6 py-4">{data.leadTutor}</td>
                 <td className="px-6 py-4">{data.assignedTutor}</td>
                 <td className="px-6 py-4">{data.status}</td>
-                <td className="px-6 py-4">{data.date}</td>
+                <td className="px-6 py-4">{data.dateAssigned}</td>
 
               </tr>
             ))}
