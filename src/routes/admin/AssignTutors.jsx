@@ -33,7 +33,7 @@ function TutorTable() {
     arrivalTime: "",
     assignedTutor: "",
     numberOfLaptops: "",
-    comments: "",
+    comment: "",
   });
 
   const handleChange = (e) => {
@@ -65,7 +65,7 @@ function TutorTable() {
       arrivalTime: "",
       assignedTutor: "",
       numberOfLaptops: "",
-      comments: "",
+      comment: "",
     });
   };
 
@@ -190,15 +190,15 @@ function TutorTable() {
         </div>
         <div className="mb-4">
           <label
-            htmlFor="comments"
+            htmlFor="comment"
             className="block text-sm font-medium text-gray-700"
           >
-            Comments
+            Comment
           </label>
           <textarea
-            id="comments"
-            name="comments"
-            value={formData.comments}
+            id="comment"
+            name="comment"
+            value={formData.comment}
             onChange={handleChange}
             className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
           />

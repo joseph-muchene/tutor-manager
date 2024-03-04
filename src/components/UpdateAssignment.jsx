@@ -37,7 +37,9 @@ function UpdateAssignment() {
     arrivalTime: task?.arrivalTime,
     assignedTutor: task?.assignedTutor,
     numberOfLaptops: task?.numberOfLaptops,
-    comments: task?.comments,
+    comment: task?.comment,
+   
+
   });
 
   const handleChange = (e) => {
@@ -190,15 +192,31 @@ function UpdateAssignment() {
         </div>
         <div className="mb-4">
           <label
+            htmlFor="numberOfClasses"
+            className="block text-sm font-medium text-gray-700"
+          >
+          Number of classes
+          </label>
+          <input
+            type="number"
+            id="numberOfClasses"
+            name="numberOfClasses"
+            value={formData.numberOfClasses}
+            onChange={handleChange}
+            className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+          />
+        </div>
+        <div className="mb-4">
+          <label
             htmlFor="comments"
             className="block text-sm font-medium text-gray-700"
           >
             Comments
           </label>
           <textarea
-            id="comments"
-            name="comments"
-            value={formData.comments}
+            id="comment"
+            name="comment"
+            value={formData.comment}
             onChange={handleChange}
             className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
           />

@@ -143,7 +143,7 @@ export default function ReportsData() {
                 <td className="px-6 py-4">{data.school}</td>
                 <td className="px-6 py-4">{data.arrivalTime}</td>
                 <td className="px-6 py-4">{data.comments}</td>
-                <td className="px-6 py-4"></td>
+                <td className="px-6 py-4">{data.numberOfClasses}</td>
                 <td className="px-6 py-4">{data.leadTutor}</td>
                 <td className="px-6 py-4">{data.assignedTutor}</td>
                 <td className="px-6 py-4">{data.status}</td>

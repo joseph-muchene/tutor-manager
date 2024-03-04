@@ -17,7 +17,6 @@ function UpdateUser({ user }) {
     email: user.email,
     role: user.role,
     password: user.password,
-    mobileNumber: "",
   });
   const { status } = formData;
   const onChangeHandler = (e, name) => {

@@ -155,7 +155,7 @@ function AssignmentTable({ authUser, isEditTask }) {
                 <td className="px-6 py-4">{assignment.arrivalTime}</td>
                 <td className="px-6 py-4">{assignment.assignedTutor}</td>
                 <td className="px-6 py-4">{assignment.numberOfLaptops}</td>
-                <td className="px-6 py-4">{assignment.comments}</td>
+                <td className="px-6 py-4">{assignment.comment}</td>
                 <td className="px-6 py-4">{assignment.status}</td>
 
                 <td className="flex space-x-3  px-6 py-4">

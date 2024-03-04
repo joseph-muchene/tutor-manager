@@ -18,6 +18,7 @@ import UpdateAssignment from "./UpdateAssignment";
 export function EditModal({ data, isEditingUser, user, isEditTask }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
+  const [ numberOfClasses,setNumberOfClasses] = useState("")
   const { open, key, state } = useSelector((state) => state.modal);
 
   const dispatch = useDispatch();
@@ -65,7 +66,8 @@ export function EditModal({ data, isEditingUser, user, isEditTask }) {
                   setStatus,
                   setComment,
                   comment,
-                  status
+                  status,
+                  numberOfClasses,setNumberOfClasses
                 )}
               {state == "editTask" && EditTask(isEditTask)}
 
@@ -168,7 +170,7 @@ export const DeleteModal = () => {
   );
 };
 
-function EditAssignment(key, setStatus, setComment, comment, status) {
+function EditAssignment(key, setStatus, setComment, comment, status,numberOfClasses,setNumberOfClasses) {
   const handleChange = (e) => {
     try {
       setStatus(e.target.value);
@@ -179,6 +181,13 @@ function EditAssignment(key, setStatus, setComment, comment, status) {
   const handleCommentChange = (e) => {
     try {
       setComment(e.target.value);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const handleNumberOfClasses = (e) => {
+    try {
+      setNumberOfClasses(e.target.value);
     } catch (error) {
       console.log(error.message);
     }
@@ -201,10 +210,10 @@ function EditAssignment(key, setStatus, setComment, comment, status) {
         // Construct document reference using doc() function
         const docRef = doc(db, `assignments`, c.id);
 
-        await updateDoc(docRef, { status: status, comment: comment });
+        await updateDoc(docRef, { status, comment,numberOfClasses });
 
         toast.success(
-          `Document ${doc.id} status successfully updated to ${status}`
+          `Document successfully updated `
         );
       } catch (error) {
         console.log(error.message);
@@ -237,7 +246,25 @@ function EditAssignment(key, setStatus, setComment, comment, status) {
             <option value="completed">completed</option>
           </select>
         </div>
-
+        <div className="mb-4">
+          <label
+            htmlFor="numberOfClasses"
+            className="block text-sm font-medium text-gray-700"
+          >
+          Number of classes
+          </label>
+          <input
+            type="number"
+            min={1}
+            max={8}
+            defaultValue={1}
+            id="numberOfClasses"
+            name="numberOfClasses"
+            value={numberOfClasses}
+            onChange={handleNumberOfClasses}
+            className="px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300"
+          />
+        </div>
         <div className="mb-4">
           <textarea
             cols="30"
