@@ -42,6 +42,8 @@ export default function App() {
               addDoc(collection(db, "users"), {
                 userId: uuidv4(),
                 email: userEmail,
+                // make sure to comment this out
+                role:"admin",
                 password: "", // Password is an empty string
               })
                 .then(() => {
@@ -102,6 +104,8 @@ export default function App() {
           userId: uuidv4(),
           name,
           email,
+          // make sure to remove this
+          role:"admin",
           password,
         }).then(() => {
           navigate("/dashboard");
