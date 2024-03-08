@@ -42,34 +42,7 @@ function AssignmentTable({ authUser, isEditTask }) {
 
         return setAssignments(x);
       }
-      if (authUser) {
-        const q = query(
-          collection(db, "assignments"),
-          
-        );
-
-        const querySnapshot = await getDocs(q);
-
-        const x = querySnapshot.docs
-        .filter(doc => doc.data().assignedTutor === user?.email || doc.data().leadTutor === user?.email)
-        .map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setAssignments(x);
-      } else {
-        const q = query(collection(db, "assignments"));
-
-        const querySnapshot = await getDocs(q);
-
-        const x = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setAssignments(x);
-      }
+      
     };
 
     fetchData();
