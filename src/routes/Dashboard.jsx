@@ -8,11 +8,14 @@ function Dashboard() {
   return (
     <div>
 
-      <Notify/>
       <DashboardAside />
+
 
       <div class="p-4 sm:ml-64 ">
         <div class="p-4 rounded-lg ">
+          <div className="flex justify-end">
+            <Notify />
+          </div>
           <div>
             <Outlet />
           </div>
