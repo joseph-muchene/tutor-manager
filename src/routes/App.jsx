@@ -7,7 +7,7 @@ import { provider } from "../auth/provider";
 import Logo from "../assets/smartbrains.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
-import { query, where, getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 export default function App() {
   const auth = getAuth();

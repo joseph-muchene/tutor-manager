@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { db } from "../../firebase.config";
 import { v4 as uuidv4 } from "uuid";
-import { Timestamp, addDoc, collection, getDocs } from "firebase/firestore";
+import {  addDoc, collection, getDocs } from "firebase/firestore";
 import { useUser } from "../../app/rtkHooks/useUser";
 function TutorTable() {
   const user = useUser();
   // user from state --- important with redirects
   // console.log("use-x", user);
-  const [tutors, setTutors] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

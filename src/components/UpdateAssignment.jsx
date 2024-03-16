@@ -12,7 +12,6 @@ import {
 import { db } from "../firebase.config";
 function UpdateAssignment() {
   const { task } = useSelector((state) => state.task);
-  const [tutors, setTutors] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

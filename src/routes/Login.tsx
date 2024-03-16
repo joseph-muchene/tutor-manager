@@ -1,14 +1,12 @@
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, db } from "../firebase.config";
+
+
 import Logo from "../assets/smartbrains.jpeg";
-import { provider } from "../auth/provider";
+
 import { Link, useNavigate } from "react-router-dom";
-import { collection, addDoc } from "firebase/firestore";
-import { query, where, getDocs } from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
+
 export default function Login() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {

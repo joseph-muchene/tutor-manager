@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpen } from "../app/feartures/modalSlice";
-import AssignmentTable from "./AssignmentTable";
-import AssignTutors from "../routes/admin/AssignTutors";
 import { db } from "../firebase.config";
 import {
   collection,
@@ -15,7 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import UpdateUser from "./UpdateUser";
 import UpdateAssignment from "./UpdateAssignment";
-export function EditModal({ data, isEditingUser, user, isEditTask }) {
+export function EditModal({ data, user, isEditTask }) {
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
   const [ numberOfClasses,setNumberOfClasses] = useState("")

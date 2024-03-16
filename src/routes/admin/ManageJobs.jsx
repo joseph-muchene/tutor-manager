@@ -1,6 +1,7 @@
 import React from "react";
 import AssignmentTable from "../../components/AssignmentTable";
 import { useUser } from "../../app/rtkHooks/useUser";
+import ManageAssignment from "./manageAssignments";
 
 const ManageTutors = () => {
   // user from state --- important with redirects
@@ -8,7 +9,8 @@ const ManageTutors = () => {
     const user = useUser();
   return (
     <div>
-      <AssignmentTable authUser={false} isEditTask={true} />
+      <ManageAssignment/>
+      {/* <AssignmentTable authUser={false} isEditTask={true} /> */}
     </div>
   );
 };
