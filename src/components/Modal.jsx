@@ -286,7 +286,7 @@ function EditAssignment(key, setStatus, setComment, comment, status,numberOfClas
   );
 }
 
-function EditTask({ isEditTask }) {
+function EditTask() {
   return (
     <div>
       <UpdateAssignment />

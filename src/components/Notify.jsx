@@ -47,13 +47,14 @@ export default function Notify() {
     return (
 
         <>
-            <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-orange-600 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center  rounded-full  ">
 
+            
+
+                <div class="relative me-4">
                 <Bell/>
-                <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
-                    {assignments.length}
-                </span>
-
+                {assignments.length <  1 ? ( <span class="top-0 start-7 absolute w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>):( <span class="top-0 start-7 absolute w-3.5 h-3.5 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"></span>)}
+</div>
             </button>
 
 
