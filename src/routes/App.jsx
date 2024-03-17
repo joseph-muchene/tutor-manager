@@ -104,8 +104,7 @@ export default function App() {
           userId: uuidv4(),
           name,
           email,
-          // make sure to remove this
-          role:"admin",
+          role:"regular",
           password,
         }).then(() => {
           navigate("/dashboard");
