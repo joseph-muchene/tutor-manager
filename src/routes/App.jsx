@@ -33,7 +33,7 @@ export default function App() {
             querySnapshot.forEach((doc) => {
               if (doc.data().email === userEmail) {
                 userExists = true;
-                return;
+                return navigate("/dashboard")
               }
             });
 
@@ -53,9 +53,11 @@ export default function App() {
                 .catch((error) => {
                   toast.error("Error adding user: ", error);
                 });
-            } else {
-              toast.error("User is already registered");
-            }
+            } 
+            // else {
+            //   !window.location.pathname.startsWith("/dashboard") &&
+            //   toast.error("User is already registered");
+            // }
           })
           .catch((error) => {
             console.error("Error checking user registration: ", error);

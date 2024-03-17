@@ -11,7 +11,7 @@ export default function Login() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            navigate("/dashboard");
+          return  navigate("/dashboard");
         } else {
             return;
         }

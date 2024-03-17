@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
 import jsPDF from "jspdf";
+import {Download } from 'lucide-react'
 import Logo from "../assets/smartbrains.jpeg";
 import "jspdf-autotable";
 export default function ReportsData() {
@@ -100,9 +101,9 @@ export default function ReportsData() {
        <div class="relative overflow-x-auto ">
         <button
           onClick={generateAndDownloadReports}
-          className=" my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+          className=" my-3 bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mr-2"
         >
-          Generate Report
+        <Download />
         </button>
         <table className="  text-sm text-left rtl:text-right text-gray-500 ">
           <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">

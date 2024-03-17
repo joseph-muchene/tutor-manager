@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth, db } from "../firebase.config";
 import { setUserResult } from "../app/feartures/userSlice";
-
+import {LogOut as L} from 'lucide-react'
 export const DashboardAside = () => {
   const [user, setUser] = useState(null);
   const [toggle, setToggle] = useState(false);
@@ -38,13 +38,14 @@ export const DashboardAside = () => {
     onAuthStateChanged(auth, (user) => {
       if (user === null) {
         navigate("/");
+        return
       } else {
         setUser(user);
       }
     });
   }, [auth]);
 
-  // fetch user
+
   useEffect(() => {
     async function checkUser() {
       const q = query(
@@ -107,7 +108,7 @@ export const DashboardAside = () => {
               className="absolute top-4 right-4  text-gray-500 rounded-lg "
             >
               <svg
-                class="w-3 h-3 md:hidden"
+                class="w-3 h-3 md:hidden "
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -124,7 +125,7 @@ export const DashboardAside = () => {
             </button>
             <li>
               <Link className="flex items-center space-x-3" to={`/dashboard`}>
-                <LayoutDashboard />
+                <LayoutDashboard className="text-blue-700"/>
                 <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
               </Link>
             </li>
@@ -133,7 +134,7 @@ export const DashboardAside = () => {
                 className="flex items-center space-x-3"
                 to={`/dashboard/reports`}
               >
-                <Notebook />
+                <Notebook className="text-blue-700"/>
                 <span class="flex-1 ms-3 whitespace-nowrap">Reports</span>
               </Link>
             </li>
@@ -144,7 +145,7 @@ export const DashboardAside = () => {
                     className="flex items-center space-x-3"
                     to={`/dashboard/assign/jobs`}
                   >
-                    <School />
+                    <School className="text-blue-700" />
                     <span class="flex-1 ms-3 whitespace-nowrap">
                       Assign task
                     </span>
@@ -156,7 +157,7 @@ export const DashboardAside = () => {
                     className="flex items-center space-x-3"
                     to={`/dashboard/manage/jobs`}
                   >
-                    <ClipboardList />
+                    <ClipboardList className="text-blue-700"/>
                     <span class="flex-1 ms-3 whitespace-nowrap">
                       Manage tasks
                     </span>
@@ -167,7 +168,7 @@ export const DashboardAside = () => {
                     className="flex items-center space-x-3"
                     to={`/dashboard/manage/users`}
                   >
-                    <Users />
+                    <Users className="text-blue-700"/>
                     <span class="flex-1 ms-3 whitespace-nowrap">
                       Manage Users
                     </span>
@@ -181,8 +182,8 @@ export const DashboardAside = () => {
 
         <li>
           <Link className="flex items-center space-x-3">
-            <div className="absolute bottom-3 left-8 bg-red-500 px-4 py-2 rounded text-white">
-              <button onClick={LogOut}>Log out</button>
+            <div className="absolute bottom-3 left-8 bg-red-700 px-4 py-2  rounded text-white">
+              <button onClick={LogOut} className="flex space-x-2"><L /> </button>
             </div>
           </Link>
         </li>
